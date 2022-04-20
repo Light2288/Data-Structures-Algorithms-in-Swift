@@ -18,4 +18,10 @@ example(of: "using a stack") {
         assert(4 == poppedElement)
         print("Popped: \(poppedElement)")
     }
+    
+    if let lastElement = stack.peek() {
+        print(lastElement)
+    }
+    
+    print(stack.isEmpty)
 }

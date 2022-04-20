@@ -5,6 +5,7 @@ public struct Stack<Element> {
     private var storage: [Element] = []
     
     public init() {}
+    
 }
 
 
@@ -33,5 +34,21 @@ extension Stack {
     @discardableResult
     public mutating func pop() -> Element? {
         storage.popLast()
+    }
+}
+
+
+// MARK: - Peek
+extension Stack {
+    public func peek() -> Element? {
+        self.storage.last
+    }
+}
+
+
+// MARK: - Is Empty
+extension Stack {
+    public var isEmpty: Bool {
+        peek() == nil
     }
 }
