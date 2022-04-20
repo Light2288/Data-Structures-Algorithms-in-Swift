@@ -44,3 +44,13 @@ example(of: "initializing a stack from variadic params") {
     print(stack)
     stack.pop()
 }
+
+
+
+// MARK: - Challenges
+print("\n\n ---- Challenges ----\n")
+printReversed(array: [1, 2, 3])
+
+print(checkBalancedParenteses(in: "h((e))llo(world)()((!()))"))
+print(checkBalancedParenteses(in: "h((ello) world!"))
+print(checkBalancedParenteses(in: "h))((e))llo(world)()((!()))(("))
