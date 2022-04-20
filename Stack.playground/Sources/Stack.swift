@@ -68,3 +68,11 @@ extension Stack: ExpressibleByArrayLiteral {
         self.storage = elements
     }
 }
+
+
+// MARK: - Initialization with variadic param
+extension Stack {
+    public init(_ elements: Element...) {
+        self.init(Array(elements))
+    }
+}

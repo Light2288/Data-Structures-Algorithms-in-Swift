@@ -38,3 +38,9 @@ example(of: "initializing a stack from an array literal") {
     print(stack)
     stack.pop()
 }
+
+example(of: "initializing a stack from variadic params") {
+    var stack = Stack(1, 2, 3, 4)
+    print(stack)
+    stack.pop()
+}
