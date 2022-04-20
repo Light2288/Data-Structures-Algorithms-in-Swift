@@ -1,7 +1,7 @@
 import UIKit
 
 func example(of description: String, closure: () -> Void) {
-    print("Example of \(description)\n")
+    print("\n\nExample of \(description)\n")
     closure()
 }
 
@@ -24,4 +24,17 @@ example(of: "using a stack") {
     }
     
     print(stack.isEmpty)
+}
+
+example(of: "initializing a stack from an array") {
+    let array = ["A", "B", "C", "D"]
+    var stack = Stack(array)
+    print(stack)
+    stack.pop()
+}
+
+example(of: "initializing a stack from an array literal") {
+    var stack = Stack([1.0, 2.0, 3.0, 4.0])
+    print(stack)
+    stack.pop()
 }

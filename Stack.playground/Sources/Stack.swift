@@ -49,6 +49,22 @@ extension Stack {
 // MARK: - Is Empty
 extension Stack {
     public var isEmpty: Bool {
-        peek() == nil
+        self.peek() == nil
+    }
+}
+
+
+// MARK: - Initialization with array
+extension Stack {
+    public init(_ elements: [Element]) {
+        self.storage = elements
+    }
+}
+
+
+// MARK: - Initialization with array literal
+extension Stack: ExpressibleByArrayLiteral {
+    public init(arrayLiteral elements: Element...) {
+        self.storage = elements
     }
 }
