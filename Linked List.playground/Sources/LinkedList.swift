@@ -50,7 +50,7 @@ extension LinkedList {
 }
 
 
-// MARK: - Insert after operation
+// MARK: - Insert after index/element operation
 extension LinkedList {
     public func node(at index: Int) -> Node<Value>? {
         var currentNode = self.head
@@ -124,7 +124,7 @@ extension LinkedList {
 }
 
 
-// MARK: - Remove after specific index
+// MARK: - Remove after specific element/index
 extension LinkedList {
     @discardableResult
     public mutating func remove(after node: Node<Value>) -> Value? {
@@ -147,5 +147,46 @@ extension LinkedList {
             node.next = node.next?.next
         }
         return node.next?.value
+    }
+}
+
+
+// MARK: - Collection extension
+extension LinkedList: Collection {
+    public struct Index: Comparable {
+        public var node: Node<Value>?
+        
+        static public func == (lhs: Index, rhs: Index) -> Bool {
+            switch (lhs.node, rhs.node) {
+            case let(left?, right?):
+                return left.next === right.next
+            case (nil, nil):
+                return true
+            default:
+                return false
+            }
+        }
+        
+        static public func < (lhs: Index, rhs: Index) -> Bool {
+            guard lhs != rhs else { return false }
+            let nodes = sequence(first: lhs.node) { $0?.next }
+            return nodes.contains { $0 === rhs.node }
+        }
+    }
+    
+    public var startIndex: Index {
+        Index(node: self.head)
+    }
+    
+    public var endIndex: Index {
+        Index(node: self.tail?.next)
+    }
+    
+    public func index(after i: Index) -> Index {
+        Index(node: i.node?.next)
+    }
+    
+    public subscript(position: Index) -> Value {
+        position.node!.value
     }
 }
