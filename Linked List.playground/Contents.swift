@@ -112,7 +112,7 @@ example(of: "removing a node after a particular node") {
 }
 
 
-example(of: "using collection") {
+example(of: "using collections") {
     var list = LinkedList<Int>()
     for i in 0...9 {
         list.append(i)
