@@ -28,9 +28,9 @@ extension LinkedList: CustomStringConvertible {
 // MARK: - Push operation
 extension LinkedList {
     public mutating func push(_ value: Value) {
-        head = Node(value: value, next: head)
-        if tail == nil {
-            tail = head
+        self.head = Node(value: value, next: head)
+        if self.tail == nil {
+            self.tail = self.head
         }
         
     }
@@ -40,6 +40,7 @@ extension LinkedList {
 // MARK: - Append operation
 extension LinkedList {
     public mutating func append(_ value: Value) {
+        self.copyNodes()
         guard !self.isEmpty else {
             self.push(value)
             return
@@ -66,6 +67,7 @@ extension LinkedList {
     
     @discardableResult
     public mutating func insert(_ value: Value, after node: Node<Value>) -> Node<Value> {
+        self.copyNodes()
         guard self.tail !== node else {
             append(value)
             return self.tail!
@@ -77,6 +79,7 @@ extension LinkedList {
     }
     
     public mutating func insert(_ value: Value, after index: Int) {
+        self.copyNodes()
         guard let node = self.node(at: index) else { return }
         guard self.tail !== node else {
             append(value)
@@ -92,10 +95,11 @@ extension LinkedList {
 extension LinkedList {
     @discardableResult
     public mutating func pop() -> Value? {
+        self.copyNodes()
         defer {
             self.head = self.head?.next
             if self.isEmpty {
-                tail = nil
+                self.tail = nil
             }
         }
         return self.head?.value
@@ -107,6 +111,7 @@ extension LinkedList {
 extension LinkedList {
     @discardableResult
     public mutating func removeLast() -> Value? {
+        self.copyNodes()
         guard let head = self.head else { return nil }
         
         guard head.next != nil else { return self.pop() }
@@ -128,6 +133,7 @@ extension LinkedList {
 extension LinkedList {
     @discardableResult
     public mutating func remove(after node: Node<Value>) -> Value? {
+        guard let node = self.copyNodes(returningCopyOf: node) else { return nil }
         defer {
             if node.next === self.tail {
                 self.tail = node
@@ -139,6 +145,7 @@ extension LinkedList {
     
     @discardableResult
     public mutating func remove(after index: Int) -> Value? {
+        self.copyNodes()
         guard let node = self.node(at: index) else { return nil }
         defer {
             if node.next === self.tail {
@@ -188,5 +195,44 @@ extension LinkedList: Collection {
     
     public subscript(position: Index) -> Value {
         position.node!.value
+    }
+}
+
+
+// MARK: - Adding COW
+extension LinkedList {
+    private mutating func copyNodes() {
+        guard !isKnownUniquelyReferenced(&head) else { return }
+        guard var oldNode = self.head else { return }
+        self.head = Node(value: oldNode.value)
+        var newNode = self.head
+        
+        while let nextOldNode = oldNode.next {
+            newNode!.next = Node(value: nextOldNode.value)
+            newNode = newNode!.next
+            oldNode = nextOldNode
+        }
+        
+        self.tail = newNode
+    }
+    
+    private mutating func copyNodes(returningCopyOf node: Node<Value>?) -> Node<Value>? {
+        guard !isKnownUniquelyReferenced(&head) else { return nil }
+        guard var oldNode = self.head else { return nil }
+        self.head = Node(value: oldNode.value)
+        var newNode = self.head
+        var nodeCopy: Node<Value>?
+        
+        while let nextOldNode = oldNode.next {
+            if oldNode === node {
+                nodeCopy = newNode
+            }
+            newNode!.next = Node(value: nextOldNode.value)
+            newNode = newNode!.next
+            oldNode = nextOldNode
+        }
+        
+        self.tail = newNode
+        return nodeCopy
     }
 }
