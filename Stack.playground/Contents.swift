@@ -1,8 +1,8 @@
 import UIKit
 
-func example(of description: String, closure: () -> Void) {
+func example(of description: String, completion: () -> Void) {
     print("\n\nExample of \(description)\n")
-    closure()
+    completion()
 }
 
 example(of: "using a stack") {
