@@ -40,3 +40,33 @@ example(of: "creating a queue implemented with ring buffer") {
     print(queue)
     print(queue.peek ?? "Queue is empty")
 }
+
+example(of: "creating a queue implemented with double stack") {
+    var queue: QueueStack<String> = QueueStack<String>()
+
+    queue.enqueue("Ray")
+    queue.enqueue("Brian")
+    queue.enqueue("Eric")
+    print(queue)
+    queue.dequeue()
+    print(queue)
+    print(queue.peek ?? "Queue is empty")
+}
+
+
+// MARK: - Challenges
+print("\n\n ---- Challenges ----\n")
+var queue: QueueStack<String> = QueueStack<String>()
+queue.enqueue("Player 1")
+queue.enqueue("Player 2")
+queue.enqueue("Player 3")
+queue.enqueue("Player 4")
+queue.enqueue("Player 5")
+print(queue.nextPlayer()!)
+print(queue.nextPlayer()!)
+print(queue.nextPlayer()!)
+print(queue.nextPlayer()!)
+print(queue.nextPlayer()!)
+print(queue.nextPlayer()!)
+print(queue.nextPlayer()!)
+print(queue.nextPlayer()!)
