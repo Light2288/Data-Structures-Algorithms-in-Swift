@@ -14,3 +14,17 @@ extension QueueStack: BoardGameManager {
         return player
     }
 }
+
+extension QueueStack {
+    public func reversed() -> QueueStack {
+        var queue = self
+        var stack: Stack<T> = Stack()
+        while let element = queue.dequeue() {
+            stack.push(element)
+        }
+        while let element = stack.pop() {
+            let _ = queue.enqueue(element)
+        }
+        return queue
+    }
+}
