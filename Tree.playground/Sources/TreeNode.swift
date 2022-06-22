@@ -21,3 +21,27 @@ extension TreeNode {
         }
     }
 }
+
+extension TreeNode {
+    public func forEachLevelOrder(visit: (TreeNode) -> Void) {
+        visit(self)
+        var queue = Queue<TreeNode>()
+        self.children.forEach { queue.enqueue($0) }
+        while let node = queue.dequeue() {
+            visit(node)
+            node.children.forEach { queue.enqueue($0) }
+        }
+    }
+}
+
+extension TreeNode where T: Equatable {
+    public func search(_ value: T) -> TreeNode? {
+        var result: TreeNode?
+        self.forEachLevelOrder { node in
+            if node.value == value {
+                result = node
+            }
+        }
+        return result
+    }
+}

@@ -48,3 +48,26 @@ example(of: "depth-first traversal") {
     let tree = makeBeverageTree()
     tree.forEachDepthFirst { print($0.value) }
 }
+
+example(of: "level-order traversal") {
+    let tree = makeBeverageTree()
+    tree.forEachLevelOrder { print($0.value) }
+}
+
+example(of: "searching for a node") {
+    let tree = makeBeverageTree()
+    if let searchResult = tree.search("Ginger Ale") {
+        print("Found node: \(searchResult.value)")
+    }
+    if let searchResult2 = tree.search("WKD Blue") {
+        print("Found node: \(searchResult2.value)")
+    } else {
+        print("Could not find WKD Blue")
+    }
+}
+
+// MARK: - Challenges
+example(of: "Challenge 1") {
+    let tree = makeBeverageTree()
+    tree.forEachLevelPrint(separator: "\n") { print($0.0.value, terminator: " ")}
+}
